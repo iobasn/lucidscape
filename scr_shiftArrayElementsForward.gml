@@ -1,4 +1,5 @@
 //a simple script to shift array elements
+//useful to know how to do, yknow!
 
 function scr_shiftArrayElementsForward(_array){
 	{ 
