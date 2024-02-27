@@ -7,11 +7,14 @@ draw_set_color(c_white);
 //draw_text(scr_GETVIEWX() + 0, scr_GETVIEWY() + 80, "CLICK AMT = " + string(confirmAmount));
 //draw_text(scr_GETVIEWX() + 0, scr_GETVIEWY() + 90, "LETINDEX = " + string(letIndex));
 //draw_text(scr_GETVIEWX() + 0, scr_GETVIEWY() + 120, "NAME LENGTH = " + string(string_length(global.talkerName[txtIndex])));
+
+
 lineBuf = 10
 nameBoxScaleBuf = 23
 midBuffer = sprite_get_width(spr_midNameBox)
 if global.talkerPortrait[txtIndex] != 0 {
 	if letIndex < string_length(global.text[txtIndex]) {
+	//animated portrait functionality, if the current portrait has extra frames
 		if portraitImg != sprite_get_number(portraitImg) {
 			portraitImg += shuffleSpd;	
 		} else {
@@ -30,6 +33,8 @@ if global.txtSize[txtIndex] = undefined {
 switch (myState)
 {
 	case DBOX.CANSKIP:
+		//dynamically draw a container sprite the length character[i]'s name 
+		//this is straight up spaghetti brah
 		if global.talkerName[txtIndex] != 0 {
 			while nameCharBuffer = 0 {
 				for(var i = 1; i < string_length(global.talkerName[txtIndex]); i++)
