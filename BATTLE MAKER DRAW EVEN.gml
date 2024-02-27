@@ -3,30 +3,16 @@ draw_set_font(fontMach)
 draw_text_ext_transformed_color(room_width/2, 7, "LUCIDSCAPE BATTLE MAKER", 1000, 1000, 1, 0.5, 0, c_grey, c_grey, c_grey, c_grey, 1)
 draw_text_ext_transformed(room_width/2, 5, "LUCIDSCAPE BATTLE MAKER", 1000, 1000, 1, 0.5, 0)
 draw_set_font(fontBinary)
-//draw_text_ext_transformed(room_width/2, 35, "CHOOSE YOUR ACTORS", 1000, 1000, 1, 0.5, 0)
 draw_set_font(fontMach)
-//draw_text_ext_transformed(480, 70, "CHOOSE YOUR OPPONENTS", 1000, 1000, 0.5, 0.5, 0)
 draw_set_halign(fa_left)
 
-//draw_text_ext_transformed(10, 300, "MEMBER AMT = " + string(chosenMemIndex), 1000, 1000, 1, 0.5, 0)
-//draw_text_ext_transformed(10, 330, "OPPONENT AMT = " + string(chosenOpponentIndex), 1000, 1000, 1, 0.5, 0)
-
-//draw_text(10, 30, "ROW LIMIT = " + string(rowLimit))
-//for(var i = 0; i < ds_list_size(global.heroDSList); i++)
-//{
-//	draw_sprite(global.heroDSList[|i].sprite, 0, memberX[i], 180)	
-//}
-
-//for(var i = 0; i < ds_list_size(global.enemyDSList); i++)
-//{
-//	draw_sprite(global.enemyDSList[|i].sprite, 0, 150 + (70 * i), 180)	
-//}
-
+//draw the character selection grid graphic
 for(var i = 1; i < array_length(boxX); i++)
 {
 	draw_sprite_ext(spr_textbox, 0, boxX[i], boxY[i], 1.5, 1.5, 0, c_white, 0.5)
 }	
 
+//populate the grid with the available playable characters
 while setBuf = 0 {
 	for(var i = 1; i < ds_list_size(global.heroDSList); i++)
 		{
@@ -48,6 +34,7 @@ while setBuf = 0 {
 	setBuf = 1
 }
 
+//populate the grid with the available enemies
 while enemyPopulateBuf = 0 {
 		for(var k = 0; k < ds_list_size(global.enemyDSList); k++)
 	{
@@ -75,6 +62,7 @@ for(var i = 1; i < array_length(boxX); i++)
 	draw_sprite_ext(spr_textboxoverlay, 0, boxX[i], boxY[i], 1.5, 1.5, 0, c_white, 1)
 }	
 
+//draws the heroes you've chosen once you've chosen them
 for(var i = 0; i < array_length(chosenHeros); i++)
 {
 	if chosenHeros[i] != undefined 
@@ -83,6 +71,7 @@ for(var i = 0; i < array_length(chosenHeros); i++)
 	}
 }
 
+//draws the opponents you've chosen once you've chosen them
 for(var i = 0; i < array_length(chosenOpponents); i++)
 {
 	if chosenOpponents[i] != undefined 
@@ -108,6 +97,8 @@ for(var i = 0; i < array_length(chosenOpponents); i++)
 //{
 //	draw_text_ext_transformed(200, 200 + (30 * o), "MEM ARRAY = " + string(global.partyMemberArray[o]), 30, 2000, 0.2, 0.2, 0)	
 //}
+
+//draws some PARAMETERS BABY 
 draw_set_font(fontBinary)
 draw_text_ext_transformed(10, 340, "CUSTOM BATTLES WON = " + string(global.customBattlesWon), 10, 2000, 0.5, 0.5, 0)	
 draw_text_ext_transformed(200, 340, "HERO NULL AMT = " + string(heroNullAmt), 10, 2000, 0.5, 0.5, 0)	
