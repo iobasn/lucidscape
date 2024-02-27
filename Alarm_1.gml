@@ -1,3 +1,12 @@
+//how i figured out precisely timing dialogue with the song and events of the current intro "cinematic"
+//a timer value is incremented every second and thats pretty much the anchor point of the whole operation
+//upon incrementing a check is performed and if the current timer value lines up with one from the switch statement
+//then x,y,z will be executed
+//it's kinda ugly but really its just "do x at y time"
+//in this case, dialogue is printed at specified coordinates
+//there are some coordinates i preset because i knew i'd be using them alot
+//other times i winged that shit with mad offsets
+
 switch(timerVal)
 {
 	case 0:
