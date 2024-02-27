@@ -1,3 +1,6 @@
+//the step function of the general battle handler
+//input for the command menu and character currently being controlled is picked up here
+
 haxis = gamepad_axis_value(0, gp_axislh);
 vaxis = gamepad_axis_value(0, gp_axislv);
 
@@ -38,7 +41,6 @@ _down = keyboard_check(vk_down) or global._downDpadTap
 _confirm = keyboard_check_pressed(ord("X")) or global._buttA
 _roll = keyboard_check_pressed(ord("Z")) or global._buttX
 _jump = keyboard_check_pressed(ord("C")) or global._buttB 
-//_jumpHeld = global._buttBHold
 _lockOn = keyboard_check_pressed(ord("V")) or global._shoulderR
 _powerSacrifice = global._upDpadTap
 _lifeSacrifice = global._downDpadTap
@@ -71,14 +73,13 @@ if _jump {
 	}
 }
 
+//directly subtract hp or mp from currently controlled chara 4 debug purposes
 if keyboard_check(ord("U")) { with global.CURRENTLY_CONTROLLED_CHARA { CURRENTLIFE -= 1 CURRENTMP -= 1 } }
 if keyboard_check(ord("I")) { with global.CURRENTLY_CONTROLLED_CHARA { CURRENTLIFE += 1 CURRENTMP += 1 } }
-//if keyboard_check(ord("U")) { dummyHealth -= 1 }
-//if keyboard_check(ord("I")) { dummyHealth += 1 }
+
 
 if _confirm {
 	var afterImage = instance_create_layer(menuStarX, menuStarY, "Instances", obj_afterImage)
-	//afterImage.dir			= "RIGHT"
 	afterImage.anchorX = scr_GETVIEWX() + menuStarX
 	afterImage.anchorY = scr_GETVIEWY() + menuStarY
 	afterImage.behavior	= "EXPANDING"
@@ -86,7 +87,6 @@ if _confirm {
 	afterImage.alph			= 0.5
 	afterImage.sprite_index = spr_UISTAR
 	afterImage.image_blend	= MENU[actionMenuIndex].COLOR 
-	
 	
 	switch(flag)
 	{
@@ -108,9 +108,7 @@ if _confirm {
 						switch(canCancel)
 						{
 							case 1:
-							//if moveIndex != moveLimit
 							if moveIndex != array_length(GROUND_COMBO) { MOVE_INSTANCE_SPAWNBUFFER = 0 }
-				
 							break;
 						}
 					}
@@ -152,7 +150,7 @@ with global.CURRENTLY_CONTROLLED_CHARA
 	#region MOVEMENT
 	switch(global.usingGamepad)
 	{
-		case 0: if !_up && !_down { } break;
+		case 0:  break;
 	
 		case 1:
 			switch(OCCUPIED)
