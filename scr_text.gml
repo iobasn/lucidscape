@@ -1,3 +1,8 @@
+//script i use to set overworld dialogue text in a much more forgiving way than 
+//hardcoding every parameter in an array.
+//this allows me to freely add or subtract lines without the hassle of 
+//shifting every entry manually
+
 function scr_text(_name, _text, _portrait, _snd, _size, _pitch){
 	global.talkerName[array_length(global.talkerName) - 1] = _name
 	array_resize(global.talkerName, array_length(global.talkerName) + 1);
