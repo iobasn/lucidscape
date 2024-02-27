@@ -1,9 +1,32 @@
 //the step function of the general battle handler
-//input for the command menu and character currently being controlled is picked up here
 
+//input for the command menu and character currently being controlled is picked up here
 haxis = gamepad_axis_value(0, gp_axislh);
 vaxis = gamepad_axis_value(0, gp_axislv);
 
+floatIter += floatIterSpeed
+#region INPUT
+_left = keyboard_check(vk_left) 
+_right = keyboard_check(vk_right) 
+_up = keyboard_check(vk_up) or global._upDpadTap
+_down = keyboard_check(vk_down) or global._downDpadTap
+_confirm = keyboard_check_pressed(ord("X")) or global._buttA
+_roll = keyboard_check_pressed(ord("Z")) or global._buttX
+_jump = keyboard_check_pressed(ord("C")) or global._buttB 
+_lockOn = keyboard_check_pressed(ord("V")) or global._shoulderR
+_powerSacrifice = global._upDpadTap
+_lifeSacrifice = global._downDpadTap
+_lucidSacrifice = global._leftDpadTap
+_defenseSacrifice = global._rightDpadTap
+_focusHeal = global._shoulderL
+#endregion 
+
+//the shoulder buttons served as the method for swapping between characters, but that's due for a change-
+//as i feel like locking on with the right shoulder button is simply more intuitive.
+//at the end of the day, the functionality is programmed, so it'll only be a matter of swapping 
+//assigned inputs
+
+global.CURRENTLY_CONTROLLED_CHARA = mate[0]
 if global._shoulderL 
 { 
 	for(var i = array_length(mate) - 1; i > 0; i--)
@@ -30,31 +53,15 @@ if global._shoulderR
 	
 	scr_setCameraTarget(global.CURRENTLY_CONTROLLED_CHARA)	
 }
-global.CURRENTLY_CONTROLLED_CHARA = mate[0]
-scr_setCameraTarget(mate[0])
-floatIter += floatIterSpeed
-#region INPUT
-_left = keyboard_check(vk_left) 
-_right = keyboard_check(vk_right) 
-_up = keyboard_check(vk_up) or global._upDpadTap
-_down = keyboard_check(vk_down) or global._downDpadTap
-_confirm = keyboard_check_pressed(ord("X")) or global._buttA
-_roll = keyboard_check_pressed(ord("Z")) or global._buttX
-_jump = keyboard_check_pressed(ord("C")) or global._buttB 
-_lockOn = keyboard_check_pressed(ord("V")) or global._shoulderR
-_powerSacrifice = global._upDpadTap
-_lifeSacrifice = global._downDpadTap
-_lucidSacrifice = global._leftDpadTap
-_defenseSacrifice = global._rightDpadTap
-_focusHeal = global._shoulderL
-#endregion 
 
+//sets the x offset of icon MENU[actionMenuIndex]
 itemIconOffset = lerp(itemIconOffset, 0, 0.7)
 if _up or _down { scr_playSFX(sfx_actionMenuFlip, 1020, false) menuStarX = scr_GETVIEWX() + 0 itemIconOffset = -32}
 starRotationAddition = (15 * (-actionMenuIndex + 1)) 
 menuStarRotation2 = lerp(menuStarRotation2, menuStarRotation + starRotationAddition, 0.1)
 
-
+//flip through the action menu
+//to be added: tie it to a simple flag to forbid functionality when called for 
 if _up 
 {
 	if 	actionMenuIndex != 0 { actionMenuIndex-- } else { actionMenuIndex = array_length(MENU) - 1 }
@@ -96,18 +103,22 @@ if _confirm {
 				case global.MENU_OPTIONS_LIST.BASH:
 				#region ATTACKING
 				with global.CURRENTLY_CONTROLLED_CHARA {
-					if flag = 0 or flag = 4 or canCancel = 1 && moveIndex != moveLimit {
+				//if you may freely act, your current animation can be cancelled and you're not at the end of your combo
+					if !occupied or canCancel = 1 && moveIndex != moveLimit {
 						switch(onGround)
 							{	
+				//operate differently based on whether you're on the ground or not
 								case 0: flag = 5 break;
 								case 1: flag = 1 break;
 							}
-					}	
+					}
+				//if you're mid ground attack
 					if flag = 1
 					{
 						switch(canCancel)
 						{
 							case 1:
+				//reset the buffer that allows you to spawn attack instances, thereby letting you actually perform combos
 							if moveIndex != array_length(GROUND_COMBO) { MOVE_INSTANCE_SPAWNBUFFER = 0 }
 							break;
 						}
@@ -115,7 +126,9 @@ if _confirm {
 				}
 				#endregion
 				break;
-				
+
+				//buncha placeholder shit lol
+				//item and sacrifice functionality is already programmed from older builds
 				case global.MENU_OPTIONS_LIST.STUFFS:
 				scr_playSFX(sfx_actionMenuSelect, 1000, false)
 				break;
@@ -135,14 +148,16 @@ if _confirm {
 
 with global.CURRENTLY_CONTROLLED_CHARA
 {
-	//SETS AUDIO POSITION TO ALWAYS BE AT THE CHARACTER BEING CONTROLLED
+	//sets audio listener position to the currently controlled character, ensures audio is processed correctly
 	audio_listener_position(x, y, 0)
 	switch(stationary)
 	{
 		case 0: direction = point_direction(0, 0, other.haxis, other.vaxis); break;
 		case 1: break;
 	}	
-	
+
+	//cosmetic functionality tied to switching directions. eventually changes in direction will be reflected by unique sprites instead.
+	//it works but this is just lazy! it wouldnt reflect character design accurately in practice!
 	switch(facingDirection)
 	{
 		case RIGHT: image_xscale =  1 break; case LEFT:  image_xscale = -1 break;
